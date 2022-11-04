@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import requests
+import time
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -62,6 +63,7 @@ driver.find_element(By.XPATH, '//button[@class="fr-btn fr-btn--primary fr-icon-c
 while True:
 
     try:
+        time.sleep(3)
         elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, '//p[@class="lead fr-text mt-4 mb-3 text-center"]')))
 
@@ -79,7 +81,7 @@ while True:
         driver.find_element(By.XPATH,
                             '//button[@class="fr-btn fr-btn--primary fr-icon-check-line fr-btn--icon-left "]').click()
 
-    except:
+    finally:
         send_to_telegram(
             "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
             "%20de%20visa")
