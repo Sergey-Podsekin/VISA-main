@@ -1,1 +1,1 @@
-worker: python FRANCE.py
+web: python FRANCE.py
