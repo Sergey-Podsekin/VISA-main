@@ -29,6 +29,19 @@ def send_to_telegram(message):  # Telegram bot
     except Exception as e:
         print(e)
 
+def send_to_telegram_log(message):  # Telegram bot
+
+    apiToken = '5704612050:AAEIS4ZcP19CDgZ5-g3uNFxw64Dvsmn0HRA'
+    chatID = '-860708556'
+    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage'
+
+    try:
+        response = requests.post(apiURL, json={'chat_id': chatID, 'text': message})
+        print(response.text)
+    except Exception as e:
+        print(e)
+
+
 count = 1
 
 driver.get("https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
@@ -72,5 +85,5 @@ while True:
             "%20de%20visa")
         driver.save_screenshot(f'WARNING!!!!!{count}.png')
 
-    print(count)
+    send_to_telegram_log(count)
     count = count + 1
