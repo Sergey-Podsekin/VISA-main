@@ -45,6 +45,12 @@ def send_to_telegram_log(message):  # Telegram bot
 
 count = 1
 
+def image():
+    directory = os.getcwd()
+    files = {'photo': open(f'{directory}\WARNING!!!!!1.png', 'rb')}
+    resp = requests.post('https://api.telegram.org/bot5704612050:AAEIS4ZcP19CDgZ5-g3uNFxw64Dvsmn0HRA/'
+                         'sendPhoto?chat_id=-860708556', files=files)
+
 def checker():
 
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
@@ -58,6 +64,8 @@ def checker():
     driver.implicitly_wait(20)
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
 
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.XPATH, "//label[@for='readInformations']")))
     driver.implicitly_wait(20)
     driver.find_element(By.XPATH, "//label[@for='readInformations']").click()
 
@@ -69,14 +77,19 @@ def checker():
             EC.presence_of_element_located((By.XPATH, '//p[@class="lead fr-text mt-4 mb-3 text-center"]')))
         send_to_telegram_log(count)
         count = count + 1
+        driver.save_screenshot(f'WARNING!!!!!1.png')
+        image()
+
 
     except:
         send_to_telegram(
             "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
             "%20de%20visa")
-        driver.save_screenshot(f'WARNING!!!!!{count}.png')
+        driver.save_screenshot(f'WARNING!!!!!1.png')
+        image()
 
     driver.quit()
+
 
 while True:
     checker()
