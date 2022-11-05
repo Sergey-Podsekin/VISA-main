@@ -59,10 +59,10 @@ def checker():
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
 
     driver.implicitly_wait(20)
-    driver.find_element(By.CSS_SELECTOR, "label[for='readInformations']").click()
+    driver.find_element(By.XPATH, "//label[@for='readInformations']").click()
 
     driver.implicitly_wait(20)
-    driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
+    driver.find_element(By.XPATH, "//button[normalize-space()='Prendre rendez-vous']").click()
 
     try:
         WebDriverWait(driver, 20).until(
