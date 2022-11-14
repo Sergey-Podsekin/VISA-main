@@ -11,12 +11,8 @@ chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
-#driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
 
-#options = webdriver.ChromeOptions()
-#options.headless = True
-#driver = webdriver.Chrome(executable_path="C:\PYTHON\chromedriver.exe", options=options)
-
+count = 1
 
 def send_to_telegram(message):  # Telegram bot
 
@@ -43,47 +39,48 @@ def send_to_telegram_log(message):  # Telegram bot
         print(e)
 
 
-count = 1
-
 def image():
     directory = os.getcwd()
     files = {'photo': open(f'{directory}\WARNING!!!!!1.png', 'rb')}
-    resp = requests.post('https://api.telegram.org/bot5704612050:AAEIS4ZcP19CDgZ5-g3uNFxw64Dvsmn0HRA/'
-                         'sendPhoto?chat_id=-860708556', files=files)
+    requests.post('https://api.telegram.org/bot5704612050:AAEIS4ZcP19CDgZ5-g3uNFxw64Dvsmn0HRA/'
+                  'sendPhoto?chat_id=-819110848', files=files)
 
 def checker():
-
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     global count
     driver.get("https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
                "%20de%20visa")
 
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
 
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
 
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.XPATH, "//label[@for='readInformations']")))
-    driver.implicitly_wait(20)
-    driver.find_element(By.XPATH, "//label[@for='readInformations']").click()
+    driver.implicitly_wait(5)
+    checkbox = driver.find_element(By.XPATH, "//input[@id='readInformations']")
+    driver.execute_script("arguments[0].click();", checkbox)
+    is_selected = checkbox.is_selected()
+    while not is_selected:
+        driver.execute_script("arguments[0].click();", checkbox)
+        is_selected = checkbox.is_selected()
 
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Prendre rendez-vous']").click()
 
     try:
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.XPATH, '//p[@class="lead fr-text mt-4 mb-3 text-center"]')))
         send_to_telegram_log(count)
         count = count + 1
         driver.save_screenshot(f'WARNING!!!!!1.png')
-        image()
+        # image()
 
 
     except:
         send_to_telegram(
-            "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
+            "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R"
+            "%C3%A9ception%20des%20demandes "
             "%20de%20visa")
         driver.save_screenshot(f'WARNING!!!!!1.png')
         image()
