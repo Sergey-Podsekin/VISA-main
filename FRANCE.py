@@ -60,7 +60,8 @@ def checker():
     else:
         driver.implicitly_wait(5)
         driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
-
+    print(len(is_present1))
+    
     driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
 
@@ -84,15 +85,13 @@ def checker():
             EC.presence_of_element_located((By.XPATH, '//p[@class="lead fr-text mt-4 mb-3 text-center"]')))
         send_to_telegram_log(count)
         count = count + 1
-        driver.save_screenshot(f'WARNING!!!!!1.png')
+        #driver.save_screenshot(f'WARNING!!!!!1.png')
         # image()
 
 
     except:
         send_to_telegram(
-            "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R"
-            "%C3%A9ception%20des%20demandes "
-            "%20de%20visa")
+            "Свободные места на визу Франция https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes%20de%20visa")
         driver.save_screenshot(f'WARNING!!!!!1.png')
         image()
 
