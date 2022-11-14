@@ -47,26 +47,37 @@ def image():
 
 def checker():
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    #driver = webdriver.Chrome(executable_path="C:\PYTHON\chromedriver.exe", options=options)
     global count
     driver.get("https://consulat.gouv.fr/ambassade-de-france-a-minsk/rendez-vous?name=R%C3%A9ception%20des%20demandes"
                "%20de%20visa")
 
-    driver.implicitly_wait(5)
-    driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
+    driver.implicitly_wait(10)
+    is_present1 = driver.find_elements(By.XPATH, "//button[normalize-space()='Accéder aux services']")
+    if len(is_present1) != 0:
+        driver.implicitly_wait(5)
+        driver.find_element(By.CSS_SELECTOR, "button[class='fr-btn fr-btn--primary fr-icon-check-line fr-btn--icon-left ']").click()
+    else:
+        driver.implicitly_wait(5)
+        driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
 
     driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
 
     driver.implicitly_wait(5)
     checkbox = driver.find_element(By.XPATH, "//input[@id='readInformations']")
+    driver.implicitly_wait(5)
     driver.execute_script("arguments[0].click();", checkbox)
+    driver.implicitly_wait(5)
     is_selected = checkbox.is_selected()
+    driver.implicitly_wait(5)
     while not is_selected:
         driver.execute_script("arguments[0].click();", checkbox)
         is_selected = checkbox.is_selected()
 
     driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Prendre rendez-vous']").click()
+    driver.implicitly_wait(5)
 
     try:
         WebDriverWait(driver, 5).until(
