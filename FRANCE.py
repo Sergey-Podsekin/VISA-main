@@ -60,7 +60,6 @@ def checker():
     else:
         driver.implicitly_wait(5)
         driver.find_element(By.XPATH, "//button[normalize-space()='Accéder aux services']").click()
-    print(len(is_present1))
     
     driver.implicitly_wait(5)
     driver.find_element(By.XPATH, "//button[normalize-space()='Confirmer']").click()
